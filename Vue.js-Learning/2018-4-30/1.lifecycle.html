@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <!--这里就是outerHTML,外部的元素-->
+    <!--vue的生命周期中,会在el之后判断是否有template,如果有就编译它,没有的话就执行outerHTML作为template-->
+    {{a}}
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    //生命周期:beforeCreate-->created
+    //        beforeMount-->mounted
+    //        beforeUpdate-->updated
+    //        beforeDestroy-->destroyed
+    //根据官方文档的生命周期图,发现最开始初始化只会调取beforeCreate和created
+    let vm = new Vue({//根实例在初始化时会调用很多方法(钩子函数:本质类似回调函数)
+
+        beforeCreate(){//1.此方法一般用不到
+            debugger;
+        },
+        data:{//data并非一开始就挂载在vm上的
+            a:1
+        },
+        created(){//2.此方法一般获取ajax,获取初始化操作
+            debugger;
+        },
+        template:'<div>{{a}}</div>',//4.渲染dom
+                                    //规定有且只有一个标签,而且这个标签就会替换掉id为app的标签,可以观察控制台的div 的id走到这里已经不见了
+                                    //如果有template属性就会用模板替换掉outerHTML属性,只要有此属性,#app中的的内容就没有任何意义
+                                    //只能有一个根元素,不能是文本节点
+
+        beforeMount(){//5.根据文档重点的生命周期图,如果把vm.$mount删除,则不会使生命周期走到这一步,不会弹出1
+            alert(1);
+        },
+        mounted(){//真实dom渲染完了,可以操作dom了
+
+        },
+        //一般用watch替换掉以下两个方法
+        beforeUpdate(){
+            //只有页面依赖的值更新才会触发,如果修改的值页面并不依赖,则不会触发
+            alert('更新之前');//在控制台修改vm.a的值,会触发
+        },
+        updated(){
+            alert('更新之后');//在控制台修改vm.a的值,会触发,然后页面值更新
+        },
+        //要执行生命周期最后的两步,需要告诉实例销毁:vm.$destroy()
+        //在销毁后,在控制台输出vm,对它执行方法或者修改,发现实例中的对页面数据的监听依赖等等都失效
+        beforeDestroy(){//可以清除定时器或者清楚事件绑定
+            alert('销毁前');
+        },
+        destroyed(){
+            alert('销毁后');
+        }
+    });
+
+    vm.$mount('#app');//3.要保证有编译的元素,这里等于el:'#app'
+    /*
+        我们这里做两个断点处理,打开控制台刷新页面,发现第一次断点发生后,vm实例挂钩的内容中$data是未定义的,因为data不是最先执行的
+        而第二次断点后,$data已经挂载了一个对象,包含a以及它的值1,并且多了get和set方法,来监听获取的与设置值
+    */
+
+    // vm.$destroy();//告诉实例可以销毁了
+</script>
+</body>
+</html>

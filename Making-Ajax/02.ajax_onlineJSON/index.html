@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #c91623;
+        }
+
+        .show-box {
+            width: 666px;
+            min-height: 66px;
+            margin: 20px auto;
+            border-radius: 20px;
+            border: 1px solid #000;
+            box-shadow: 0 0 30px hotpink;
+        }
+    </style>
+</head>
+<body>
+    <h2>JD数据抓取后的解析</h2>
+    <input type="button" value="获取JSON数据解析">
+
+    <div class="show-box"></div>
+</body>
+<script>
+    //注册事件
+    document.querySelector('input').onclick = function(){
+        // 创建异步对象
+        var xhr = new XMLHttpRequest();
+        // 请求行
+        xhr.open('get','backShop.php');
+        // 设置请求头(get请求可以省略)
+        // 注册状态改变事件
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                var obj = JSON.parse(xhr.responseText);
+                console.log(obj);
+                //拼接字符串
+                var html = '<table>';
+                for(var i=0;i<obj.length;i++){
+                    html += '<tr>';
+                    html += '<td>'+obj[i].name+'</td>';
+                    html += '<td><img src='+obj[i].logo+'></td>';
+                    html += '</tr>';
+                }
+                html += '</table>';
+
+                document.querySelector('.show-box').innerHTML = html;
+            }
+        }
+        // 发送请求
+        xhr.send(null);
+    }
+</script>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <!--使用-->
+    <component1></component1>
+    <component2/>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    //引用三部曲:创建这个组件 注册这个组件 使用这个组件
+    //组件相互独立,无法跨作用域,无法公用data中的数据
+    //实例其实也是一个组件,组件中也都具有生命周期函数
+    //子组件不能使用父组件的数据
+    //组件理论上可以无限嵌套
+    let obj = {name:"Cyan"};//组件共用数据
+    let component1 = {//创建
+        template:`<div @click="name='hello'">组件1 {{name}}</div>`,
+        data(){
+            return obj;
+            //这样做可以使组件共用,但是风险很大,若其中一个组件修改了其中的内容,那么就会影响共用的数据,同时修改了所有组件共用的数据
+            //也就是说如果组件共用了数据 会导致同时更新(独立性)
+        }
+    };
+
+    let component2 = {
+        template:'<div @click="fn">组件2 {{name}}</div>',
+        data(){
+            return obj;
+        },
+        methods:{
+            fn(){
+                this.name = 'Aqing'//即使这种写法也会导致共同更新数据
+            }
+        }
+    };
+    let vm = new Vue({
+        el:'#app',
+        components:{//注册
+            component1,
+            component2
+        },
+        data:{
+            a:123//子组件无法使用父级的属性:Property or method "a" is not defined on the instance but referenced during render.
+                 //组件相互独立,无法跨作用域
+        }
+    })
+</script>
+</body>
+</html>

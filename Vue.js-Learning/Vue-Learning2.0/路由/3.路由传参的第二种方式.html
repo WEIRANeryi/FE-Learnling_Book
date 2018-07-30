@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        .v-enter-active,
+        .v-leave-active {
+            transition: all .3s ease;
+        }
+
+        .myclass {
+            color: cornflowerblue;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用params来传递参数 -->
+        <!-- 这里使path中的id传为10 -->
+        <router-link to="/login/10">登陆</router-link>
+        <router-link to="/reg">注册</router-link>
+
+        <transition mode="out-in">
+            <router-view></router-view>
+        </transition>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router.js"></script>
+    <script>
+        let login = {
+            template:'<h1>登陆</h1>',
+            created () {
+                console.log(this.$route);
+                console.log(this.$route.params);//这样就可以成功取出传的值了
+            }
+        }
+
+        let  reg = {
+            template:'<h1>注册</h1>'
+        }
+
+
+        let router = new VueRouter({
+            routes:[
+                //这里有一个占位符 :id
+                { path: '/login/:id', component: login },
+                { path: '/reg', component: reg },
+                { path: '/', redirect: '/login' }
+            ],
+            linkActiveClass:'myclass'
+        })
+
+
+        let vm = new Vue({
+            el:'#app',
+            data: {
+
+            },
+            router:router
+        })
+    </script>
+</body>
+</html>

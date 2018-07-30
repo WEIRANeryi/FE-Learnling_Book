@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性Setter</title>
+</head>
+<body>
+<!--在处理商品价格时，后端需要把价钱定义为分为单位，来避免处理浮点类型数据时产生的问题，而前端则需要再把价钱转化为元，如果需要修改价格，则又要把价钱转化传给后端-->
+<!--在使用Vue的计算属性后，我们将vm.cents设置为后端所存的值，计算属性price为前端展示和更新数据-->
+<div id="app">
+    <p>&yen;{{price}}</p>
+</div>
+
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            cents:100
+        },
+        computed:{
+            price:{
+                set:function (newValue) {
+                    this.cents=newValue*100;
+                },
+                get:function () {
+                    return (this.cents/100).toFixed(2);
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--生活中经常使用组件之间的切换比如登陆和注册-->
+<div id="app">
+    <a href="#" @click="flag=true">登陆</a>
+    <a href="#" @click="flag=false">注册</a>
+
+    <login v-if="flag"></login>
+    <register v-else></register>
+</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.component('login',{
+        template:`<h3>登陆组件</h3>`
+    });
+
+    Vue.component('register',{
+        template:`<h3>注册组件</h3>`
+    });
+    let vm = new Vue({
+        el:"#app",
+        data:{
+            flag:true
+        }
+    })
+</script>
+</body>
+</html>

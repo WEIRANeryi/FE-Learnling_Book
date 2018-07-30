@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+
+<script>
+    /**
+    封装的过程：
+        重复的代码写出来
+        不能固定的作为参数传递
+    ajax工具函数：
+        success回调函数的作用：
+        对于获取回来的数据的处理我们并不知道，而使用该方法的用户知道，
+        所以我们让使用该方法的用户来自己传入他对数据的操作的方法
+    */
+
+    //get请求
+    //因为是我们封装的函数，因为我们约定：data的格式是 ley1=value1&key2=value2
+    function get(url,data,success){
+        //请求异步对象
+        var xhr = new XMLHttpRequest();
+        //请求行
+        if(data){
+            url += '?';
+            url += data;
+        }
+        xhr.open('get',url);
+        //请求头(get可以忽略)
+        //回调函数
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                //调用传入的回调函数
+                success(xhr.responseText);
+
+                //普通字符串
+                console.log(xhr.responseText);
+                //JSON对象
+                console.log(JSON.parse(xhr.responseText));
+                //XML
+                console.log(xhr.responseXML);
+            }
+        }
+        //请求主体发送
+        xhr.send(null);
+    }
+    //post请求
+    function post(url,data,success){
+        //请求异步对象
+        var xhr = new XMLHttpRequest();
+        //请求行
+        xhr.open('post',url);
+        //请求头(有数据才设置)
+        if(data){
+            xhr.setRequestHeader('content-type','application/www-x-form-urlencoded');
+        }
+        //回调函数
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                console.log(xhr.responseText);
+                success(xhr.responseText);
+            }
+        }
+        //请求主体发送
+        xhr.send(data);
+    }
+</script>

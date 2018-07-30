@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!-- 不好理解,暂时跳过 -->
+<div id="app">
+    父亲:{{money}}
+    <!-- <child :m="money" @update:m="val => this.money = val"></child> -->
+    <!-- 使用sync语法糖,可以简写上面的代码 -->
+    <child :m.sync="money"></child>
+    <!-- 写的时候不用sync,难以理解,按原有写法即可 -->
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            money:400
+        },
+        components:{
+            child:{
+                template:'<div>儿子:{{m}} <button @click="getMoney">多要钱</button></div>',
+                props:['m'],
+                methods:{
+                    getMoney(){
+                        this.$emit('update:m',800);
+                    }
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

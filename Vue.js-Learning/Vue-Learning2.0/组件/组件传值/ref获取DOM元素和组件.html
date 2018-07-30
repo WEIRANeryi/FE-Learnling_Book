@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="获取元素" @click="getElement">
+        <h1 ref="myh1">啊哈哈，今天天气太好了！！！</h1>
+        <hr>
+        <login ref="mylogin"></login>
+    </div>
+
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let login = {
+            template:`<h1>登陆组件</h1>`,
+            data () {
+                return {
+                    msg:'son msg'
+                }
+            },
+            methods:{
+                show(){
+                    alert('调用了子组件的方法');
+                }
+            }
+        }
+        
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                
+            },
+            methods: {
+                getElement(){
+                    //ref是英文单词【reference】的缩写  可以用来获取页面上的DOM元素
+                    //可以输出vm查看这个Vue实例中的refs属性中的内容
+                    //因此我们可以拿到refs中的mylogin组件，并能拿到数据，调用子组件中的方法
+                    this.$refs.mylogin.show();
+                    console.log(this.$refs.mylogin.msg);
+                }
+            },
+            components: {
+                'login':login
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>方法</title>
+</head>
+<body>
+<div id="app">
+    <button v-on:click="alert">check me</button>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data:{a:1},
+        methods:{
+            alert:function () {
+                alert(this.a);
+            }
+        }
+    });
+</script>
+</body>
+</html>

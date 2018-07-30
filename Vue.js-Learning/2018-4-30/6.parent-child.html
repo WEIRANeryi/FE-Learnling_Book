@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <!--父子组件传递数据:money-->
+    <!--当前组件的属性 = 父级的值-->
+
+    <!--比如下面这个div的id属于div的属性,而123这个值属于父级-->
+    <!--<div id="123"></div>-->
+
+    <!--给儿子加了一个m属性,m属性的值属于父亲,m之前加冒号代表v-bind绑定属性,如果不加冒号,那么等号后面的只会认为是字符串而不是属性值-->
+    父组件:{{money}}
+    <child :m="money"></child>
+    <!--在html中的组件中不能写{{m}},获取不到-->
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    //实现父属性传递给子
+    let vm = new Vue({//假设这个是parent组件
+        el:'#app',
+        data:{
+            money:100,
+            name:'Cyan'
+        },
+        components:{
+            child:{
+                //自己的属性不能和传入的属性重名,并且,如果写了data就不能使他为空,会报错,所以,没有自带的属性,就不要写data方法
+                // data(){return {m:0}},
+
+                // props:['m','n'],//this.m = 100; 会在当前子组件上声明一个m属性,值是父级的;当然这里可以获取多个值
+                //可是props写成数组很被动,无法校验父组件传回来的值是否是子组件需要的,于是下面的写法可以校验
+
+                //校验时,一般都不会阻断代码的执行,大部分都是警告
+                props:{
+                    //prop中的属性名不能和data中相同
+                    m:{ //校验属性类型,如果属性前面不带冒号,那么得到的内容肯定是字符串,而不是属性值
+                        typeof:[Number,Boolean,String],//m的类型只能是数字字符串和布尔类型
+                        required:true,   //添加这句后,则要求此属性必须传入,但是不能和default重用
+
+                        //拓展:自定义的校验器(用的不是很多)
+                        validator(val){    //第一个参数:传入的值,返回true表示校验通过
+                            return val>90;
+                        }
+                    },
+                    n:{
+                        typeof:[Number,Boolean,String],
+                        default:0   //可以给m赋予默认值,在不传入prop时默认default生效
+                    }
+
+                },
+                template:'<div>子组件:{{m}},{{n}}</div>'
+            }
+        }
+    })
+</script>
+</body>
+</html>

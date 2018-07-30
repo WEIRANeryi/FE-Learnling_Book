@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>definePrototype</title>
+</head>
+<body>
+<input type="text">
+<script>
+    let obj={};
+    Object.defineProperty(obj,'name',{
+        get(){//取obj的name属性会触发
+            return 1;
+        },
+        set(value){//给obj的name属性设值
+            console.log(value);
+        }
+    });
+
+
+
+    // Object.defineProperty(obj,'name',{
+    //     configurable:false,//是否可删除,false不可以删除
+    //     writable:false,//是否可以写属性，false不可以修改
+    //     enumerable:false,//是否可枚举，false不可以被循环
+    //     value:1
+    // });
+    // delete obj.name;//未删除成功
+    // obj.name = 100;//未修改成功
+    // for(var key in obj){
+    //     console.log(obj[key]);//未输出内容
+    // }
+</script>
+</body>
+</html>

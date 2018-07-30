@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div v-if="yes">这里是if</div>
+<div>这里是if和else之间的插入者，破坏了它们紧跟的格局</div>
+<div v-else>这里是else</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            yes:true,
+            no:false,
+            show1:true,
+            show2:false
+        }
+    });
+
+    /*从之前的试验代码能够发现，v-if引起了dom操作级别的变化，而v-show仅引发了样式变化，因此v-show消耗的性能比v-if小
+    * v-if切换时，Vue.js会有一个局部编译/卸载过程，因为v-if中的模板也有可能包括数据绑定或子组件。v-if要保证条件块在切换当中适当地销毁与中间内部的事件监听器和子组件
+    * v-if是惰性的，如果在初始条件为假时，v-if本身什么都不会做，而v-show则仍会进行正常操，然后把css样式设置为display：none
+    * 总的来说，v-if有更高的切换消耗而v-show有更高的初始渲染消耗，我们需要根据实际的使用场景来选择*/
+</script>
+</body>
+</html>

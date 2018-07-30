@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>指令１</title>
+</head>
+<body>
+    <!--模拟原生的v-bind指令-->
+    <div id="app">
+        <h1 v-my-bind:title="message">{{ message }}</h1>
+        <input type="text" v-model="message">
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    // 动态绑定属性值
+    Vue.directive('my-bind',{
+        bind(el,binding){
+            console.log(binding);
+            el.setAttribute(binding.arg,binding.value);
+        },
+        update(el,binding){
+            el.setAttribute(binding.arg,binding.value);
+        }
+    });
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            message:'Hello Vue.js!'
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <!--修改输入框内容，后面的全名信息动态的被修改-->
+    <input type="text" v-model="val">
+    <input type="text" v-model="firstName">
+    <input type="text" v-model="lastName">
+    {{fullName}}
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        // 使用watch，可以很明显的发现，代码量较多，而且逻辑的重复性较高
+        // watch:{
+        //     val(newValue,oldValue) {
+        //         this.fullName = this.firstName + this.lastName + newValue;
+        //     },
+        //     firstName(newValue,oldName){
+        //         this.fullName = newValue + this.lastName + this.val;
+        //     },
+        //     lastName(newValue,oldName){
+        //         this.fullName = this.firstName + newValue + this.val;
+        //     }
+        // },
+        computed:{//使用computed计算属性就十分简洁，且代码赶紧，逻辑清晰，所以使用watch 和 computed时，我们需要视情况而定
+            fullName(){
+                return this.val + this.firstName + this.lastName;
+            }
+        },
+        data:{
+            firstName:"Cyan",
+            lastName:"Aqing",
+            val:'',
+            // fullName:''//这里是在使用watch时需要定义的，使用computed不需要，因为computed中的属性不能和其他属性中的属性名重名
+        }
+    })
+</script>
+</body>
+</html>

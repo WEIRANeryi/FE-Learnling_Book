@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <p ref="myp">{{msg}}</p>
+        <p ref="myp">{{msg}}</p>
+        <p ref="myp">{{msg}}</p>
+        <div ref="warp">
+            <div v-for="a in arr" ref="mydiv">{{a}}</div>
+        </div>
+
+    </div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    // 具体看看mounted的作用,是如何操作dom的
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'hello',
+            arr:[1,2,3]
+        },
+        //假设我们要获取p标签的内容
+        mounted(){
+            //vue拿到msg中的值后与挂载的元素拼接后,再被这里取到,所以打印出了hello,但这种写法很奇怪
+            //console.log(document.getElementsByTagName("p")[0].innerHTML);
+            //这里才是vue的写法:
+            //$代表的是vue上自带的属性:
+            //this.$data vm上的数据   this.$watch 监控
+            //this.$el 当前挂载的元素    this.$set 后加的属性实现响应式变化
+            //this.$options vm上的所有属性    this.$nextTick 异步方法,等待渲染dom完成后,可以用来获取vm
+            //this.$refs 获取ref的集合
+            //如果dom元素不是v-for循环出来的,只能获取到一个,通过v-for循环出来的能获取多个
+            console.log(this.$refs.myp);//打印了一个<p>hello</p>
+            console.log(this.$refs.mydiv);//打印了一个数组,其中三个div
+            this.arr = [1,2,3,4];//页面上多渲染了4号div,dom渲染是异步的
+            console.log(this.$refs.warp);//可以看到该div中有4个小div
+            console.log(this.$refs.warp.children.length);//但是这里打印出3?因为dom映射的关系,它是异步的,在映射的时候,代码直接往下进行所以拿到的是3,之后映射才完成
+            //若想获取完整的,那么时候nextTick等待渲染完成,如果数据变化后想获取真实dom中的内容,需要等待页面渲染完成后再去获取,所有dom操作最好在nextTick中
+            this.$nextTick(()=>console.log(this.$refs.warp.children.length))//打印出4
+        }
+    })
+</script>
+</body>
+</html>

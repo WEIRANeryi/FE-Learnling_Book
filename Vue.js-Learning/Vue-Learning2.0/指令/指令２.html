@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>指令２</title>
+</head>
+<body>
+    <div id="app">
+        <h1 v-my-bind:title="message">{{message}}</h1>
+        <input type="text" v-model="message">
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    /*Vue.directive('my-bind',{
+        bind(el,binding){
+            el.setAttribute(binding.arg,binding.value);
+        },
+        update(el,binding){
+            el.setAttribute(binding.arg,binding.value);
+        }
+    });*/
+    //很多时候，我们都会在bind和update中执行相同的代码
+    //所以我们可以使用简写的方式
+    //简写的方式直接给一个函数，该函数会作为bind和update执行时的函数
+    Vue.directive('my-bind',function (el,binding) {
+        el.setAttribute(binding.arg,binding.value);
+    });
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            message:'Hello Vue.js!'
+        }
+    })
+</script>
+</html>

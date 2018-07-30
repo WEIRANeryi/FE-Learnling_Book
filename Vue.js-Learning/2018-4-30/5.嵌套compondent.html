@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--<div>parent
+    <div>son
+        <div>grandson</div>
+    </div>
+</div>-->
+<div id="app">
+
+</div>
+
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    //若要嵌套使用组件(即一个组件中使用另一个组件),则需要把子级的组件在父级中注册
+    //1.子级的组件保证真实存在,所以要先声明
+    //2.在父级的组件的实例上通过components注册这个组件
+    //3.组件在父级的模板中通过标签的形式引用
+    let grandson = {
+        template:'<div>grandson</div>'
+    };
+    let son = {
+        template:'<div>son<grandson></grandson></div>',
+        components:{
+            grandson
+        }
+    };
+    let parent = {
+        template:'<div>parent<son></son></div>',
+        components:{
+            son
+        }
+    };
+
+    let vm =new Vue({
+        el:'#app',
+        data:{
+
+        },
+        template:'<parent></parent>',
+        components:{
+            parent
+        }
+    })
+</script>
+</body>
+</html>

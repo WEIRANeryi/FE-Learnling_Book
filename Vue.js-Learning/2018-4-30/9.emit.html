@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    父亲:{{money}}
+    <!--child.$on('child-msg',things)-->
+    <!--也就是说,订阅者订阅了发布者,就会把自己的一些绑定到发布者上,发布者会因为发布的执行(child-msg)而触发订阅者的方法-->
+    <child :m="money" @child-msg="things"></child>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    //父亲绑定一些事件,儿子触发这个事件,将参数传递过去:单项数据流,父亲数据刷新,儿子就刷新
+    //儿子相当于发布者,父亲是订阅者,并且会被儿子触发一些数据变化
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            money:400
+        },
+        methods:{
+            // 订阅者的方法,会被发布者的child-msg触发
+            things(val){//相当于on('xxx',things)中的订阅者的方法
+                alert(val);
+                this.money = val;
+            }
+        },
+        components:{
+            child:{
+                template:'<div>儿子:{{m}} <button @click="getMoney">多要钱</button></div>',
+                props:['m'],
+                methods:{
+                    getMoney(){
+                        //第二个参数是订阅者也就是父级的绑定的方法的参数val
+                        this.$emit('child-msg',800);//触发了自己的自定义事件,让父亲的方法执行
+                    }
+                }
+                //或者直接把$emit写在按钮上,点击触发执行
+                // template:'<div>儿子:{{m}} <button @click="$emit(\'child-msg\',800)">多要钱</button></div>'
+            }
+        }
+    })
+
+
+</script>
+</body>
+</html>

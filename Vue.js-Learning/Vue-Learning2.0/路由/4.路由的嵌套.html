@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <router-link to="/home">home</router-link>
+        <router-view></router-view>
+    </div>
+
+    <template id="tmpl">
+        <div>
+            <h1>这是home组件</h1>
+            <!-- 组件中router-link -->
+            <!-- 但为了保证路由的路径和逻辑对应，login应该在组件的路径后面 -->
+            <router-link to="/home/login">登陆</router-link>
+            <router-link to="/home/reg">注册</router-link>
+            <!-- 这是的容器是为了放置组件的路由拿到的子组件 -->
+            <router-view></router-view>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router.js"></script>
+    <script>
+        let home = {
+            template: '#tmpl'
+        }
+
+        let login = {
+            template: '<h1>登陆</h1>'
+        }
+
+        let reg = {
+            template: '<h1>注册</h1>'
+        }
+
+        let router = new VueRouter({
+            routes: [{
+                path: '/home',
+                component: home,
+                // 使用children实现子路由，同时，子路由法人path前面不要带 /,否则会以根路径开启请求，URL地址不便于理解
+                children:[
+                    { path: 'login', component: login },
+                    { path: 'reg', component: reg }
+                ]   
+            }
+            ]
+        });
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            router, 
+        })
+    </script>
+</body>
+
+</html>

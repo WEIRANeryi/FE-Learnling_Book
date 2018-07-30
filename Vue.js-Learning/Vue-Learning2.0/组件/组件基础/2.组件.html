@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <!--如果要使用组件，直接把组件的名称以HTML的形式引入-->
+    <my-com1></my-com1>
+</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    //Vue.component第一个参数：组件的名称，将来在引用组件的时候，就是一个 标签形式来引入的
+    //第二个参数：Vue.extend创建的内容
+    Vue.component('myCom1',Vue.extend({
+        template:`<h2>这是第一种创建组件的方式简写</h2>`
+    }));
+    let vm = new Vue({
+        el:'#app',
+        data:{
+
+        }
+    })
+</script>
+</body>
+</html>

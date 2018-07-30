@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-if/else/show</title>
+</head>
+<body>
+<div id="app">
+    <div>
+        <!--v-if和v-else根据数据的值来判断是否输出该dom元素，以及包含的子元素-->
+        <div v-if="yes">这里是if</div>
+    </div>
+    <br>
+    <div>
+        <!--v-else紧跟if使用，如果if输出，else不输出，if不输出else输出-->
+        <div v-if="no">这里是if</div>
+        <div v-else>这里是else</div>
+    </div>
+    <br>
+    <div>
+        <!--v-if绑定的元素包含子元素则不影响和if-else使用-->
+        <div v-if="no">
+            <div v-if="no">这里是子元素1</div>
+            <div v-else>这里是子元素2</div>
+        </div>
+        <div v-else>这里是else</div>
+    </div>
+    <br>
+    <div>
+        <div v-if="yes">
+            <div v-if="no">这里是子元素1</div>
+            <div v-else>这里是子元素2</div>
+        </div>
+        <div v-else>这里是else</div>
+    </div>
+    <br>
+    <div>
+        <!--除了v-if，v-show也是可以根据条件展示元素的一种指令-->
+        <div v-show="show1">这里是show1</div>
+    </div>
+    <br>
+    <div>
+        <!--v-show也可以跟v-else使用，与v-if用法一致-->
+        <div v-show="show2">这里是show2</div>
+        <div v-esle>这里是else</div>
+    </div>
+    <div>
+        <!--当v-show的值为false的时候，并不是不加载，而是使该元素的style中的display变为none-->
+        <div v-show="show2">请打开浏览器控制台查看该元素</div>
+    </div>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            yes:true,
+            no:false,
+            show1:true,
+            show2:false
+        }
+    });
+</script>
+</body>
+</html>

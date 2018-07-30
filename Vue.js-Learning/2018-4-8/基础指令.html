@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基础指令</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="msg">
+        <!--v-text === {{}},并且可以让{{}}-->
+        <h1 v-text="msg"></h1>
+        <!--v-once 只绑定一次，当数据再次发生变化，也不导致页面数据刷新,也就说表单框中内容变化，这里的数据不变-->
+        <div v-once>
+            {{msg}} {{msg}}
+        </div>
+        <!--v-html 把html字符串当做html渲染-->
+        <div v-html="h1"></div>
+    </div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'HelloWorld',
+            h1:'<h1>hello world and cyan Aqing</h1>'
+        }
+    });
+
+</script>
+</body>
+</html>

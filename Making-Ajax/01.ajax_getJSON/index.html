@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="获取JSON格式的数据">
+</body>
+<script>
+    //点击时获取
+    document.querySelector('input').onclick = function () {
+        //1.创建异步对象
+        var xhr = new XMLHttpRequest();
+        //2.设置请求行
+        xhr.open('post','backJSON.php');
+        //3.设置请求头(get请求可以省略)
+        //4.注册状态改变事件
+        xhr.onreadystatechange = function(){
+             //4.1.判断状态&请求码
+             if(xhr.readyState == 4&&xhr.status == 200){
+                // 因为返回的是JSON，所以不需要获取XML，获取Text即可
+                console.log(xhr.responseText);
+                //转化为对应的格式
+                var obj = JSON.parse(xhr.responseText);
+                console.log(obj);
+                //遍历打印
+                for(var i=0;i<obj.length;i++){
+                    console.log(obj[i].name+"--"+obj[i].skill);
+                }
+             }
+        }
+        //5.发送请求
+        xhr.send(null);
+    }
+</script>
+</html>

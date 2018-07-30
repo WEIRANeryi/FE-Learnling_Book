@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue的hello</title>
+</head>
+<body>
+<div id="app">
+    <!--vm.massage和视图中的{{massage}}是绑定的-->
+    <h1>{{massage}}</h1>
+    <!--我们可以绑定用户输入的数据，视图会随着用户的输入而变化-->
+    <input type="text" v-model="massage">
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    var vm = new Vue({
+       el:'#app',
+       data:{
+           massage:'Hello world,I am Vue.js'
+       }
+    });
+</script>
+</body>
+</html>

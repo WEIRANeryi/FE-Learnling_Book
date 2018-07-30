@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+#wq {
+    width: 400px;
+    height: 220px;
+    /* 默认情况下，webpack无法处理css文件中的url地址，不管是图片还是字体库都处理不了 */
+    background: url(../img/jk.jpg);
+    background-size:cover;
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .myclass {
+            color: chartreuse;
+            font-weight: 700;
+        }
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/login">登陆</router-link>
+        <router-link to="/reg">注册</router-link>
+        <!-- 容器 -->
+        <router-view></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router.js"></script>
+    <script>
+        let login = {
+            template:'<h1>这是第一个组件</h1>'
+        };
+        let reg = {
+            template:'<h1>这是第二个组件</h1>'
+        };
+
+        let router = new VueRouter({
+            routes:[
+                { path: '/', redirect: '/login' },
+                { path: '/login', component: login },
+                { path: '/reg', component: reg }
+            ],
+            linkActiveClass:'myclass'
+        });
+
+        let vm = new Vue({
+            el:'#app',
+            data:{
+
+            },
+            methods: {
+                
+            },
+            router:router,
+            watch: {
+                //我们可以用watch来监听一些非dom元素的改变，比如路由状态
+                // this.$route.path
+                '$route.path':function(newVal,oldVal){
+                    console.log(newVal +"---"+ oldVal);
+
+                    if(newVal == '/login') {
+                        alert('欢迎进入登陆页面');
+                    } 
+                    
+                    if(newVal == '/reg') {
+                        alert('欢迎注册');  
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

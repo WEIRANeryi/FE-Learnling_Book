@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 如果在路由中，使用查询字符串，给路由传参，则不需要修改路由规则的path属性 -->
+        <router-link to="/login?name=Cyan">登陆</router-link>
+        <router-link to="/reg">注册</router-link>
+
+        <router-view></router-view>
+    </div>
+
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router.js"></script>
+    <script>
+        let login = {
+            template:'<h1>登陆---用户名为：{{name}}</h1>',
+            data () {
+                return {
+                    name:''
+                }
+            },
+            created () {//组件的生命周期钩子函数
+                console.log(this.$route);//通过$route来获取这个route对象
+                console.log(this.$route.query);
+                console.log(this);//通过输出 这里的this指的就是我们这个组件
+                this.name = this.$route.query.name;
+            }
+        };
+
+        let reg = {
+            template:'<h1>注册</h1>'
+        };
+
+        let router = new  VueRouter({
+          routes: [
+              { path: '/login', component: login },
+              { path: '/reg', component: reg }
+          ]
+        })
+
+
+        let vm = new Vue({
+            el:'#app',
+            data: {
+
+            },
+            methods: {
+                
+            },
+            router:router
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件</title>
+</head>
+<body>
+<!--给div绑定事件-->
+<div id="app">
+    <div v-on:click="fn1">点我啊</div>
+    <!--v-on: === @-->
+    <!--如果不传递参数，则不要写括号会自动传入事件源，如果写括号，要手动写入$event属性-->
+    <div @click="fn2">你也点下我</div>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({//根实例
+        el:'#app',
+        data:{
+            //数据
+            a:1
+        },
+        methods:{//methods和data中的数据会全放到vm上，而且名字不能冲突，会报错
+            fn1(){alert(this)},//methods中的this指向的都是实例
+            fn2(){alert(this.a)}
+        }
+    });
+</script>
+</body>
+</html>

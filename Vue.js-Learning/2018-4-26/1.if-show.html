@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div v-if="flag">
+            Aqing
+        </div>
+        <div v-else>
+            Cyan
+        </div>
+        <!--template标签是vue提供给我们的，没有任何实际意义，用来包裹元素用的，浏览器不会编译它-->
+        <!--v-show不支持template 会使v-show失效，只有v-if支持template-->
+        <template v-if="flag">
+            <div>Cyan</div>
+            <div>Cyan</div>
+            <div>Cyan</div>
+            <div>Cyan</div>
+            <div>Cyan</div>
+        </template>
+
+        <!--做一个选项卡-->
+        <button @click="cut=!cut">点我一下</button>
+        <!--这里说明一下，打开浏览器控制台，观察元素的变化，点击切换的时候，vue会认为text输入框是同一个可复用的，不会发生dom的变化，
+        这个时候我们可以各自加上key来告诉vue两者不一样，点击切换的时候，就会发现input发生了切换-->
+        <!--在默认情况下在切换dom时相同的结构会被复用，如果不需要被复用经常切换更新，加上key来区别不一样-->
+        <template v-if="cut">
+            <label>注册</label>
+            <input type="text" key="1">
+        </template>
+        <template v-else>
+            <label>登录</label>
+            <input type="text" key="2">
+        </template>
+    </div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:true,
+            cut:true
+        }
+    })
+</script>
+</body>
+</html>

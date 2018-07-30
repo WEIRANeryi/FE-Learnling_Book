@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单控件</title>
+</head>
+<body>
+<div id="app">
+    <!--Text-->
+    <!--输入框要用户输入内容和vm.massage直接绑定-->
+    <input type="text" v-model="massage">
+    <span>Your input is :{{massage}}</span><br>
+    <!--Radio-->
+    <!--gender值即为选中的value值-->
+    <lable><input type="radio" value="male" v-model="gender">男</lable>
+    <lable><input type="radio" value="female" v-model="gender">女</lable>
+    <p>{{gender}}</p><br>
+    <!--CheckBox 单选-->
+    <!--单个勾选框，v-model即为布尔值，此时input的value不影响v-model的值-->
+    <input type="checkbox" v-model="checked">
+    <span>checked:{{checked}}</span><br>
+    <!--CheckBox 多选-->
+    <!--多个勾选框,v-model使用相同的属性名称,且属性为数组,不可以让value的值和v-model的值统一,这样会导致,点击一个,修改其余的所有,因为他们绑定的是同一值-->
+    <lable><input type="checkbox" value="1" v-model="multiChecked">1</lable>
+    <lable><input type="checkbox" value="2" v-model="multiChecked">2</lable>
+    <lable><input type="checkbox" value="3" v-model="multiChecked">3</lable>
+    <p>MultiChecked:{{multiChecked.join('|')}}</p><br>
+    <!--Select-->
+    <!--同CheckBox元素一样,Select也分单选和多选,多选的时候也需要绑定到一个数组-->
+    <!--单选-->
+    <select v-model="selected">
+        <option selected>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <span>Selected:{{selected}}</span><br>
+    <!--多选-->
+    <select v-model="multiSelected" multiple>
+        <option selected>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select><br>
+    <span>MultiSelected:{{multiSelected.join('|')}}</span><br>
+    
+
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            massage:'',
+            gender:'',
+            checked:'',
+            multiChecked:[],
+            selected:'',
+            multiSelected:[],
+            a:'checked',
+            b:'checked'
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>对于响应报文的数据类型判断及处理</h1>
+    <input type="button" value="获取xml" class="xml">
+    <input type="button" value="获取JSON" class="json">
+</body>
+<script src="./ajax.js"></script>
+<script>
+    //获取xml并判断出其为xml并相应处理    
+    document.querySelector('.xml').onclick = function(){
+        ajax({
+            type:'post',
+            url:'../backData/backXML.php',
+            success:function(data){
+                console.log(data);
+            }
+        })
+    };
+    // 获取json并判断出其为json并相应处理
+    document.querySelector('.json').onclick = function(){
+        ajax({
+            type:'get',
+            url:'../backData/backJSON.php',
+            success:function(data){
+                console.log(data);
+            }
+        })
+    };
+</script>
+</html>

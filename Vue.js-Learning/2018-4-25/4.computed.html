@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="len">{{msg}}
+    <!--根据输入框的内容算出错误信息，提示其长度不合理-->
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        computed:{//computed 默认调用get方法 必须使用return。但computed不支持异步，return会返回不到msg，这个时候需要watch
+          msg(){
+              if(this.len.length<3){
+                  return "长度不足";
+              }else if(this.len.length>8){
+                  return "长度超出";
+              }else {
+                  return "正常";
+              }
+          }
+        },
+        data:{
+            len:''
+        }
+    })
+</script>
+</body>
+</html>

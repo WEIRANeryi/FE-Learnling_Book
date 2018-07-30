@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app1">
+    {{'hello' | my}}
+</div>
+
+<div id="app2">
+    {{'hello' | my}}
+</div>
+
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    //全局过滤器，全局的过滤器要放在顶部
+    Vue.filter('my',(data) => {
+        return "Aqing"+data;
+    });
+    let vm = new Vue({
+        el:'#app1',
+        //局部的过滤器，比全局的优先级高，只作用于当前实例
+        // filters:{
+        //     my(data){
+        //         return "Cyan"+data;
+        //     }
+        // }
+    });
+    let vm2 = new Vue({
+        el:'#app2',
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <mycom></mycom>
+</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script>
+    Vue.component('mycom',{
+       template:`<h1>这是全局组件===={{message}}</h1>`,
+        // 组件可以有自己的 data 数据
+        // 但组件中的data必须是个function，且必须返回一个对象(对象的内容就是data内容)
+        data(){
+           return {
+               message:'这是组件中的data内容'
+           }
+        }
+    });
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+
+        }
+    });
+</script>
+</body>
+</html>

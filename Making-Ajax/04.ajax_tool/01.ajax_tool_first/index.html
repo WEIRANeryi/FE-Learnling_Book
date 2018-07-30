@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h2>测试工具函数</h2>
+    <input type="button" value="测试get" class="get">
+    <input type="button" value="测试post" class="post">
+    <input type="button" value="自选测试" class="test">
+    <input type="button" value="一个参数测试" class="ajax">
+    <input type="button" value="获取JSON" class="json">
+    <input type="button" value="获取XML" class="xml">
+    <script src="./ajax.js"></script>
+</body>
+<script>
+    //get
+    document.querySelector('.get').onclick = function(){
+        //直接调用封装的好的方法
+        // get(url,data,success);
+        get('../backData/01.backSendData.php','name=jack&friend=rose',function(data){
+            console.log(data);
+            alert(data);
+        })
+    }
+    //post
+    document.querySelector('.post').onclick = function(){
+        //直接调用封装的好的方法
+        // post(url,data,success);
+        post('../backData/01.backSendData.php','name=Cyan&friend=Aqing',function(data){
+            console.log(data);
+            alert(data);
+        })
+    }
+
+    //自选
+    document.querySelector('.test').onclick = function(){
+        ajax_test('../backData/01.backSendData.php','get','name=Cyan&friend=Aqing',function(data){
+            console.log(data);
+            alert(data);
+        })
+    }
+
+    //只传递一个参数
+    document.querySelector('.ajax').onclick = function(){
+        ajax({
+            url:'../backData/01.backSendData.php',
+            type:'post',
+            data:'name=西蓝花&like=西红柿',
+            success:function(data){
+                console.log(data);
+                alert(data);
+            }
+        })
+    }
+
+    //获取json
+    document.querySelector('.json').onclick = function(){
+        ajax({
+            type:'get',
+            url:'../backData/backJSON.php',
+            success:function(data){
+                console.log(data);
+                alert(data);
+            }
+        });
+    }
+
+    //获取xml
+    document.querySelector('.xml').onclick = function(){
+        ajax({
+            type:'get',
+            url:'../backData/backXML.php',
+            success:function(data){
+                console.log(data);
+                alert(data);
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <my-handsome></my-handsome>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    //1.组件名不要带有大写,多个单词可以使用中划线 -
+    //2.只要组件名和定义的名字一样相同是可以的(首字母可以大写)
+    //3.html采用短横线隔开命名法js中转驼峰也是可以的
+    Vue.component('my-handsome',{//一个对象可以看成一个组件
+        template:'<div>{{msg}}</div>',
+        data(){//组件中的数据必须是函数类型的,返回一个实例作为组件的数据
+            return {
+                msg:'我很帅'
+            }
+        }
+    });
+    let  vm = new Vue({
+        el:'#app',
+        data:{
+
+        }
+    })
+</script>
+</body>
+</html>

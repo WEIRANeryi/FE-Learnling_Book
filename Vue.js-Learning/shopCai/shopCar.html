@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>shopCar</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<div id="app">
+    <!--bootstrap 栅格化布局 默认12列-->
+    <!--常见的样式 基本样式+增强样式-->
+
+    <!--修改为一行10列，不占满整个屏幕-->
+    <div class="container">
+        <!--又修改为一行12列-->
+        <div class="row">
+            <p class="h2 text-danger">JD 购物车</p>
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <!--click点击时，checkbox的状态还没有改变 所以拿到的值总是相反的-->
+                    <!--使用click造成的后果就是，点击拿到的是当前未点击时的状态，然而点击完后是点击后的状态-->
+                    <!--change可以保证只当值变化后才触犯函数-->
+                    <th>全选 <input type="checkbox" v-model="checkAll" @change="change"></th>
+                    <td>商品</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>小计</td>
+                    <td>操作</td>
+                </tr>
+                <tr v-for="(product,index) in products">
+                    <td>
+                        <input type="checkbox" v-model="product.isSelected" @change="checkOne">
+                    </td>
+                    <!--:与v-bind是等价的指令：动态绑定数据-->
+                    <td>
+                        <img :src="product.productCover" :title="product.productName" :width="80" min="1">
+                        {{product.productInfo}}
+                    </td>
+                    <td>
+                        {{product.productPrice}}元
+                    </td>
+                    <td>
+                        <!--.number修饰符是让输入框的值变为数字类型-->
+                        <!--.lazy修饰符 当输入框失去焦点时更新数据-->
+                        <input type="number" v-model.number="product.productCount">
+                        <!--虽然现在修改数字后台数据也会跟着修改，但是修改出来是字符，我们使用.number修饰符-->
+                    </td>
+                    <td>
+                        <!--过滤器，原数据不变的情况下，只是改变显示的效果  管道符-->
+                        {{product.productPrice*product.productCount | toFixed(2)}}元
+                    </td>
+                    <td><button class="btn-danger" @click="remove(product)">删除</button></td>
+                    <!--删除的思路是：循环遍历products数组每一项，如果有一项和点击的这一项的地址一样，就过滤掉-->
+                </tr>
+                <tr>
+                    <td colspan="6">总价格:{{sum() | toFixed(2)}}</td>
+                    <!--这样写的缺点， 数据一旦变化就会重新调用此函数，算出最新的结果，不会缓存上一次的结果，造成性能损耗-->
+                    <!--后期可以通过 computed解决-->
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<!--基于promisede-->
+<script src="../node_modules/axios/dist/axios.js"></script>
+<script>
+    let vm = new Vue({
+        //vue提供了一个获取ajax的方法
+        el:'#app',
+        //可以理解专门用来发送ajax的方法
+        created(){//数据被初始化后调用，this指向vm实例,它是钩子函数
+            this.getData();
+        },
+        //这里面可以有很多的自定义过滤器
+        filters:{//这里的this是window
+            toFixed(input,param1){//input代表的是管道线前面的内容,而传入的参数会到第二个参数去，即param1
+                return input.toFixed(param1);
+            }
+        },
+        methods:{
+            getData(){//初始化方法
+
+                // then依靠的是Promise 它是解决回调问题的
+                axios.get('./carts.json').then(res => {//第一个函数ajax成功回调,这里需要注意回调函数的this指向window，我们把它写成箭头函数，让this指向实例
+                    console.log(res);//从里面看到有一项data，里面放着的是数组,内容即是我们需要的.这个是axios自己封装的
+                    this.products = res.data;//获取数据，需要的是res.data
+                    this.checkOne();//数据获取完成后，给checkAll赋予默认值：全选。此条请看method中的方法
+                },err => {//第二个函数ajax失败回调
+                    console.log(err);
+                });
+            },
+
+            remove(p){ //p代表的是当前点击的这一项
+                //使用箭头函数如果添加了大括号，则需要手动添加return，
+                //当箭头函数中表达式部分为语句块的时候，箭头函数并不会自动地返回一个值
+                this.products = this.products.filter((item) => {return item!==p})//这里不添加return会没有返回值，点击就会删除全部
+            },
+
+            change(){
+                // alert(this.checkAll);//该行是为了查看触发函数拿到的值是否与点击的状态相同
+                //根据当前checkAll的状态设置其他的状态(isSelected)实现全选
+                this.products.forEach(item => item.isSelected = this.checkAll);//遍历每一项的isSelected，使之与checkAll状态相等
+            },
+
+            checkOne(){//根据商品的点击结果控制全选的点击结果
+                this.checkAll = this.products.every(item => item.isSelected);//every数组方法，只要返回值有一项是false，就是false
+            },
+
+            sum(){//求总价函数
+                return this.products.reduce((prev,next) =>{
+                    if(!next.isSelected){//false未选中就取反
+                        return prev;//如果当前没被选中，就不加当前这一项，不进行处理返回上一项，进行下一次迭代再判断
+                    }
+                    return prev+next.productPrice*next.productCount;
+                },0)
+            }
+        },
+        data:{
+            products:[],
+            checkAll:false //是否全选
+        }
+    });
+</script>
+</body>
+</html>

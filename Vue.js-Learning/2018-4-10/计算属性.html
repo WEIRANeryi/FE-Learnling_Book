@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+</head>
+<body>
+<div id="app">
+    <!--除了在模板中绑定表达式或者利用过滤器外，Vue还提供计算属性这种方法，避免在模板中加入过多的业务逻辑来处理数据-->
+    <!--此时对vm.firstName或者lastName进行修改，始终会影响vm.fullName-->
+    <p>{{firstName}}</p>
+    <p>{{lastName}}</p>
+    <p>{{fullName}}</p>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            firstName:'Cyan',
+            lastName:'Aqing'
+        },
+        computed:{
+            fullName:function () {
+                //this===>vm
+                return this.firstName+' '+this.lastName
+            }
+        }
+    });
+</script>
+</body>
+</html>

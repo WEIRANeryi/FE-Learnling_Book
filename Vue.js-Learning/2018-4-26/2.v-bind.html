@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .x {
+        background: blue;
+    }
+    .y {
+        font-size: 30px;
+    }
+    .z {
+        color:pink;
+    }
+</style>
+<body>
+<!--如果此时我需要其中一两个样式类生效，如何动态绑定-->
+<div id="app">
+    <!--:class绑定的和class绑定的不冲突-->
+    <!--对象方式：{className:isActive}-->
+    <div class="x" :class="{z:flag,y:false}">123</div>
+    <br>
+    <!--数组方式-->
+    <div class="z" :class="[class1,class2]">456</div>
+    <br>
+    <!--拓展：对象数组方式-->
+    <div :class="{true:'x',false:'y'}[true]">789</div>
+    <br>
+
+    <!--实现隔行变色,两种方法-->
+    <!--如果单纯的使用a%2不用三元做判断，就会变为奇数行变色-->
+    <div v-for="a in 10" :class="{x:a%2==0?true:false}">{{a}}</div>
+    <br><br><br>
+    <div v-for="(a,index) in 10" :class="{x:index%2}">{{a}}</div>
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    //动态绑定可绑定class
+    //动态绑定可绑定style
+    //第一种方式是对象，第二种方式是数组
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:true,
+            class1:'x',
+            class2:'y',
+        },
+    })
+</script>
+</body>
+</html>

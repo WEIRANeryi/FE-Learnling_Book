@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="newName">
+        <input type="text" v-model="lastName">
+        <input type="text" v-model="fullName">
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                newName:'',
+                lastName:''
+            },
+            //与watch相比，计算属性更适合做业务逻辑的处理，而watch适合去监视数据的变化
+            computed: {
+                //在computed中，可以定义一些属性，这些属性叫做计算属性，它的本质是一个方法，只不过在使用的时候
+                //我们把它的名称是直接当做属性来使用的
+            
+                //在使用计算属性的时候，不要加()去调用，它是一个属性不是方法
+                //只要计算属性的function内部，只要data中的任何数据变化，都会进行重新的计算
+                //计算属性的求值结果，会被缓存起来，方便下次使用，不会再重新计算一次
+                fullName:{
+                    get(){
+                        return this.newName + '·' + this.lastName;
+                    },
+                    set(){
+
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

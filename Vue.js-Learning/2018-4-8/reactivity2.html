@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据响应的变化2</title>
+</head>
+<body>
+<div id="app">
+    <!--数组怎么取特定的值-->
+    {{arr[1]}}
+    <br>
+    {{arr}}
+</div>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            arr:[1,2,3,4,5]
+        }
+    });//去修改数组中的某一项是监控不到的，也不能使用改变数组长度的方法
+    //怎么修改数组内容
+    //错误示范：vm.arr[0]=100  修改不了数组第一项的值
+    //变异方法：pop，push，shift，unshift，sort，reserve
+    vm.arr.reverse();//成功输出了倒序的数组
+</script>
+</body>
+</html>

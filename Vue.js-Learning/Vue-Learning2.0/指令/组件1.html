@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+    <style>
+        .box {
+            height: 100px;
+            width: 100px;
+            background-color: pink;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>{{message}}</h1>
+        <my-component></my-component>
+        <hr>
+        <hr>
+        <hr>
+        <hr>
+        <my-component></my-component>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    //先注册组件
+    //使用组件,像使用html标签一样使用组件
+    //组件的模板 template
+    //         注意：只能有一个根元素,否则警告报错
+    //          template可以是字面量字符串，缺点是没有语法高亮
+    //          template可以写在script标签中，但是十分臃肿
+    //          template最好的解决方案是使用vue的 .vue的单文件组件来写，但必须结合一些构建工具，以后会学到
+    //组件是独立的作用域，就如同我们Node中的JavaScript模块独立的，因此：组件无法访问外部的作用域成员，外部作用域也无法访问组件内部成员
+    //组件就是一个特俗的Vue实例，可以有自己的data,methods,computed,watch等等
+    //组件的实例必须是方法：方法中返回一个一个对象作为组件的data
+    Vue.component('my-component',{
+        template:`
+            <div>
+                <h1>123</h1>
+                <h2>{{message}}</h2>
+                <button @click="handleAlertMessageClick">点击弹出自己的message</button>
+                <input type="checkbox" v-model="checked">
+                <div :class="{box:checked}"></div>
+            </div>`,
+        data(){
+            return {
+                message:'component data',
+                checked:true
+            }
+        },
+        methods:{
+            handleAlertMessageClick(){
+                window.alert(this.message);
+            }
+        }
+    });
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            message:'Hello Vue.js!'
+        }
+    })
+</script>
+</html>
