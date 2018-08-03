@@ -18,9 +18,41 @@
 
 const fs = require('fs');
 
-let promise = new Promise(function () {
-    fs.readFile('./files/1.txt','UTF-8',(err,dataStr) => {
-        if(err) throw err;
-        console.log(dataStr);
+
+// 每当new一个Promise实例的时候，就会立即执行这个异步操作中的代码
+// 也就是说new的时候，除了能够得到一个promise实例之外，还会立即调用我们为Promise构造函数传递的那个function，执行这个function中的异步操作代码
+// let promise = new Promise(function () {
+//     fs.readFile('./files/1.txt','UTF-8',(err,dataStr) => {
+//         if(err) throw err;
+//         console.log(dataStr);
+//     })
+// })
+
+// 如果不想异步操作的立刻调用，我们把它用函数封装起来，调用函数的时候才创建这个Promise实例
+// function getFileByPath(path) {
+//     let promise = new Promise(function () {
+//     fs.readFile(path,'UTF-8',(err,dataStr) => {
+//             if(err) throw err;
+//             console.log(dataStr);
+//         })
+//     })
+// }
+
+// 初衷：给路径，返回读取到的内容，或者错误信息
+function getFileByPath(path) {
+    let promise = new Promise(function (resolve,reject) {
+    fs.readFile(path,'UTF-8',(err,dataStr) => {
+            if(err) reject(err);
+            resolve(dataStr);
+        })
     })
+
+    return promise;
+}
+
+let p = getFileByPath('./files/1.txt');
+p.then(function(data){
+    console.log(data);
+},function(err){
+    console.log(err.message);
 })
